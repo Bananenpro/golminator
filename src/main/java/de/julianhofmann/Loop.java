@@ -7,8 +7,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Loop {
     public static final int DEFAULT_UPDATE_DELAY = 100;
+    private static final int PATTERN_LIST_REFRESH_DELAY = 5000;
     private final AnimationTimer drawTimer;
-    private final Thread updateThread;
+    private final Thread updateThread, updatePatternListThread;
     private boolean running;
     private final IntegerProperty updateDelay = new SimpleIntegerProperty(DEFAULT_UPDATE_DELAY);
     private final IntegerProperty actualUpdateDelay = new SimpleIntegerProperty(updateDelay.get());
@@ -19,6 +20,12 @@ public class Loop {
         drawTimer = new AnimationTimer() {
             @Override
             public void handle(long timestamp) {
+
+                if (App.ui.getPatternList().getPatternManager().isChanged()) {
+                    App.ui.getPatternList().getPatternManager().setChanged(false);
+                    App.ui.getPatternList().refresh();
+                }
+
                 Renderer renderer = App.ui.getContentPane().getRenderer();
 
                 if (!finished) {
@@ -56,12 +63,24 @@ public class Loop {
                 setActualUpdateDelay((int) Math.round((System.nanoTime() - startTime) / 1000000d));
             }
         });
+
+        updatePatternListThread = new Thread(() -> {
+            while (running) {
+                App.ui.getPatternList().getPatternManager().refreshPatterns();
+                try {
+                    Thread.sleep(PATTERN_LIST_REFRESH_DELAY);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void start() {
         running = true;
         drawTimer.start();
         updateThread.start();
+        updatePatternListThread.start();
     }
 
     public void stop() {

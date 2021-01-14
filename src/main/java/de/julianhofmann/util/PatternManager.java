@@ -9,9 +9,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -19,6 +19,9 @@ public class PatternManager {
     public static final String PATTERN_DIRECTORY = "rsc/patterns/";
 
     private ArrayList<Pattern> patterns;
+    private List<File> lastFiles;
+    private final Lock refreshLock = new ReentrantLock();
+    private boolean changed;
 
     public PatternManager() {
         File patternDir = new File(PATTERN_DIRECTORY);
@@ -34,6 +37,7 @@ public class PatternManager {
                 writer.write(json);
                 writer.flush();
                 writer.close();
+                refreshPatterns();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -44,53 +48,66 @@ public class PatternManager {
 
     @SuppressWarnings("unchecked")
     public void refreshPatterns() {
-        patterns = new ArrayList<>();
+        refreshLock.lock();
+        try {
+            JSONParser parser = new JSONParser();
 
-        JSONParser parser = new JSONParser();
-
-        File patternDir = new File(PATTERN_DIRECTORY);
-        File[] files = patternDir.listFiles(file -> file.getName().endsWith(".json"));
-        if (files != null) {
-            for (File file : files) {
-                try {
-                    BufferedReader reader = new BufferedReader(new FileReader(file));
-                    StringBuilder sb = new StringBuilder();
-                    String line = reader.readLine();
-                    while (line != null) {
-                        sb.append(line);
-                        line = reader.readLine();
-                    }
-                    reader.close();
-
-                    JSONObject object = (JSONObject) parser.parse(sb.toString());
-
-                    String name = (String) object.get("name");
-                    String category = (String) object.get("category");
-                    float width = (float) (double) object.get("width");
-                    float height = (float) (double) object.get("height");
-
-                    HashMap<Coordinates, Byte> cells = new HashMap<>();
-
-                    object.forEach((key, value) -> {
-                        if (key.toString().startsWith("cell:")) {
-                            String[] temp = key.toString().split(":");
-                            if (temp.length == 3) {
-                                try {
-                                    cells.put(new Coordinates(Float.parseFloat(temp[1]), Float.parseFloat(temp[2])), Byte.parseByte(value.toString()));
-                                } catch (NumberFormatException ignored) {
-                                }
+            File patternDir = new File(PATTERN_DIRECTORY);
+            File[] filesArray = patternDir.listFiles(file -> file.getName().endsWith(".json"));
+            if (filesArray != null) {
+                List<File> files = Arrays.asList(filesArray);
+                if (lastFiles == null || !(lastFiles.size() == files.size() && lastFiles.containsAll(files))) {
+                    patterns = new ArrayList<>();
+                    for (File file : files) {
+                        try {
+                            BufferedReader reader = new BufferedReader(new FileReader(file));
+                            StringBuilder sb = new StringBuilder();
+                            String line = reader.readLine();
+                            while (line != null) {
+                                sb.append(line);
+                                line = reader.readLine();
                             }
-                        }
-                    });
+                            reader.close();
 
-                    patterns.add(new Pattern(name, category, width, height, cells));
-                } catch (IOException | ParseException e) {
-                    e.printStackTrace();
+                            JSONObject object = (JSONObject) parser.parse(sb.toString());
+
+                            String name = (String) object.get("name");
+                            String category = (String) object.get("category");
+                            float width = (float) (double) object.get("width");
+                            float height = (float) (double) object.get("height");
+
+                            HashMap<Coordinates, Byte> cells = new HashMap<>();
+
+                            object.forEach((key, value) -> {
+                                if (key.toString().startsWith("cell:")) {
+                                    String[] temp = key.toString().split(":");
+                                    if (temp.length == 3) {
+                                        try {
+                                            cells.put(new Coordinates(Float.parseFloat(temp[1]), Float.parseFloat(temp[2])), Byte.parseByte(value.toString()));
+                                        } catch (NumberFormatException ignored) {
+                                        }
+                                    }
+                                }
+                            });
+
+                            patterns.add(new Pattern(name, category, width, height, cells));
+                        } catch (IOException | ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    patterns.sort(Comparator.comparing(Pattern::getCategory));
+                    patterns.sort((pattern, pattern2) -> {
+                        if (pattern.getCategory().equals(pattern2.getCategory())) {
+                            return pattern.getName().compareTo(pattern2.getName());
+                        }
+                        return 0;
+                    });
+                    changed = true;
                 }
+                lastFiles = files;
             }
-            if (App.ui.getPatternList() != null) {
-                App.ui.getPatternList().refresh();
-            }
+        } finally {
+            refreshLock.unlock();
         }
     }
 
@@ -115,15 +132,21 @@ public class PatternManager {
                 if (file.exists()) {
                     file.delete();
                 }
-                patterns.remove(p);
             }
         } else {
             File file = new File(PATTERN_DIRECTORY + pattern.getName() + ".json");
             if (file.exists()) {
                 file.delete();
             }
-            patterns.remove(pattern);
         }
-        App.ui.getPatternList().refresh();
+        refreshPatterns();
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
     }
 }

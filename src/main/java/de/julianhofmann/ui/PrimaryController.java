@@ -197,9 +197,7 @@ public class PrimaryController implements Initializable {
             if (!App.ui.getPatternList().getPatternManager().nameExists(name)) {
                 String category = App.ui.inputDialog("Auswahl speichern", "Kategorie:", "");
                 if (!category.isBlank()) {
-                    if (App.ui.getPatternList().getPatternManager().savePattern(name, category, App.ui.getContentPane().getSelectionManager().toJson(name, category))) {
-                        App.ui.getPatternList().getPatternManager().refreshPatterns();
-                    } else {
+                    if (!App.ui.getPatternList().getPatternManager().savePattern(name, category, App.ui.getContentPane().getSelectionManager().toJson(name, category))) {
                         App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Das Muster konnte nicht gespeichert werden!");
                     }
                 }
