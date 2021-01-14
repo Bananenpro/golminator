@@ -144,6 +144,7 @@ public class SelectionManager {
 
             originalPos = start.copy();
             selectedCells = (HashMap<Coordinates, Byte>) clipboard.clone();
+            selecting.set(true);
             pasted = true;
         }
     }
@@ -168,7 +169,7 @@ public class SelectionManager {
                 originalPos.setX(originalPos.getX() + delta.getX());
                 originalPos.setY(originalPos.getY() + delta.getY());
             }
-            if (selectedCells != null && !selectedCells.isEmpty()) {
+            if (App.world.getState() == World.STOPPED && selectedCells != null && !selectedCells.isEmpty()) {
                 App.world.setSaved(false);
             }
         }
@@ -240,6 +241,7 @@ public class SelectionManager {
             originalPos = start.copy();
             selectedCells = pattern.getCells();
             pasted = true;
+            selecting.set(true);
         }
     }
 

@@ -300,7 +300,9 @@ public class World {
             try {
                 undoManager.addChange(getCell(coordinates), value, coordinates);
                 cells.put(coordinates, value);
-                saved.set(false);
+                if (getState() == STOPPED) {
+                    saved.set(false);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -318,7 +320,9 @@ public class World {
             cellsWriteLock.lock();
             try {
                 cells.put(coordinates, value);
-                saved.set(false);
+                if (getState() == STOPPED) {
+                    saved.set(false);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -1,6 +1,5 @@
 package de.julianhofmann.util;
 
-import de.julianhofmann.App;
 import de.julianhofmann.world.Coordinates;
 import de.julianhofmann.world.Pattern;
 import de.julianhofmann.world.PatternCategory;

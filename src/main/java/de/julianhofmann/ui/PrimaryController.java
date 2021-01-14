@@ -330,8 +330,8 @@ public class PrimaryController implements Initializable {
         stopButton.setDisable(App.world.getState() == World.STOPPED);
         stopButton.setGraphic(stopButton.isDisable() ? stopIconDisabled : stopIcon);
 
-        deleteTreeItemButton.setDisable(App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null);
-        deleteTreeItemButton.setGraphic(deleteTreeItemButton.isDisable() ? deleteIconDisabled : deleteIcon);
+        deleteTreeItemButton.setDisable(App.world.getState() == World.RUNNING || App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null);
+        deleteTreeItemButton.setGraphic(App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null ? deleteIconDisabled : deleteIcon);
     }
 
     private void updateFileNameLabel() {
