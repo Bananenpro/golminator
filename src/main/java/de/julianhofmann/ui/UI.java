@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -54,6 +55,9 @@ public class UI {
         primaryScene.heightProperty().addListener((p, o, n) -> App.settings.setWindowHeight((int)n.doubleValue()));
 
         jMetro.setScene(primaryScene);
+
+        primaryStage.getIcons().add(new Image(new File("rsc/icons/icon.png").toURI().toString()));
+        primaryStage.setTitle("GOLminator");
         primaryStage.setScene(primaryScene);
         primaryStage.setOnCloseRequest(windowEvent -> {
             if (!App.ui.checkChanges()) {
