@@ -4,6 +4,7 @@ import de.julianhofmann.App;
 import de.julianhofmann.world.Coordinates;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
@@ -78,17 +79,19 @@ public class Renderer {
             }
 
             // Grid
-            if (contentPane.isShowGrid()) {
-                gc.setStroke(contentPane.getGrid());
-                // Horizontal
-                for (float i = (Math.round(App.world.getCameraY()) % App.world.getCellSize()) - App.world.getCellSize(); i < height + App.world.getCellSize(); i += App.world.getCellSize()) {
-                    gc.strokeLine(-App.world.getCellSize(), i, width + App.world.getCellSize(), i);
-                }
+            Color gridColor = contentPane.getGrid();
+            float gridOpacity = contentPane.getGridOpacity();
+            if (gridOpacity > 1) gridOpacity = 1;
+            else if (gridOpacity < 0) gridOpacity = 0;
+            gc.setStroke(new Color(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue(), gridOpacity));
+            // Horizontal
+            for (float i = (Math.round(App.world.getCameraY()) % App.world.getCellSize()) - App.world.getCellSize(); i < height + App.world.getCellSize(); i += App.world.getCellSize()) {
+                gc.strokeLine(-App.world.getCellSize(), i, width + App.world.getCellSize(), i);
+            }
 
-                // Vertical
-                for (float i = (Math.round(App.world.getCameraX()) % App.world.getCellSize()) - App.world.getCellSize(); i < width + App.world.getCellSize(); i += App.world.getCellSize()) {
-                    gc.strokeLine(i, -App.world.getCellSize(), i, height + App.world.getCellSize());
-                }
+            // Vertical
+            for (float i = (Math.round(App.world.getCameraX()) % App.world.getCellSize()) - App.world.getCellSize(); i < width + App.world.getCellSize(); i += App.world.getCellSize()) {
+                gc.strokeLine(i, -App.world.getCellSize(), i, height + App.world.getCellSize());
             }
 
             // Selection

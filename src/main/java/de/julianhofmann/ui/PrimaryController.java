@@ -282,12 +282,12 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private void zoomIn() {
-        App.world.addCellSize(1);
+        App.world.addCellSize(App.world.getCellSize() / 10);
     }
 
     @FXML
     private void zoomOut() {
-        App.world.addCellSize(-1);
+        App.world.addCellSize(-(App.world.getCellSize() / 10));
     }
 
     @FXML

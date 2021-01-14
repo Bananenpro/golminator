@@ -442,6 +442,8 @@ public class World {
     }
 
     public void addCellSize(float amount) {
+        if (cellSize.get() + amount >= 1 && amount < 0 && amount > -1) amount = -1;
+        else if (cellSize.get() + amount >= 1 && amount > 0 && amount < 1) amount = 1;
         setCellSize(cellSize.get() + amount);
     }
 

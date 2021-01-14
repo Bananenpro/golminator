@@ -20,7 +20,7 @@ public class ContentPane {
     private final BooleanProperty draggingMiddle = new SimpleBooleanProperty(false);
     private final BooleanProperty cursorInArea = new SimpleBooleanProperty(false);
 
-    private boolean showGrid;
+    private float gridOpacity;
 
     private Color background, backgroundTransparent;
     private Color grid;
@@ -50,8 +50,14 @@ public class ContentPane {
         swapBuffers();
         renderer = new Renderer(this);
 
-        showGrid = true;
-        App.world.cellSizeProperty().addListener((p, oldValue, newValue) -> showGrid = newValue.floatValue() >= 5);
+        gridOpacity = 1;
+        App.world.cellSizeProperty().addListener((p, oldValue, newValue) -> {
+            if (newValue.floatValue() < 8) {
+                gridOpacity += (newValue.floatValue() - oldValue.floatValue()) / 5;
+            } else {
+                gridOpacity = 1;
+            }
+        });
 
         updateColors(App.settings.isDarkTheme());
         App.settings.darkThemeProperty().addListener((p, oldValue, newValue) -> updateColors(newValue));
@@ -195,7 +201,7 @@ public class ContentPane {
     }
 
     private void mouseScrolled(ScrollEvent scrollEvent) {
-        App.world.addCellSize((float)scrollEvent.getDeltaY() / 40);
+        App.world.addCellSize(((float)scrollEvent.getDeltaY() / 40) * (App.world.getCellSize() / 10));
     }
 
     private void keyPressed(KeyEvent keyEvent) {
@@ -311,8 +317,8 @@ public class ContentPane {
         return backBuffer;
     }
 
-    public boolean isShowGrid() {
-        return showGrid;
+    public float getGridOpacity() {
+        return gridOpacity;
     }
 
     public SelectionManager getSelectionManager() {
