@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 public class Renderer {
-    public final int MAX_DRAW_CALLS = 50000;
+    public final int MAX_DRAW_CALLS = 30000;
 
     private final ContentPane contentPane;
     private final Canvas canvas;
@@ -84,6 +84,7 @@ public class Renderer {
             if (gridOpacity > 1) gridOpacity = 1;
             else if (gridOpacity < 0) gridOpacity = 0;
             gc.setStroke(new Color(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue(), gridOpacity));
+
             // Horizontal
             for (float i = (Math.round(App.world.getCameraY()) % App.world.getCellSize()) - App.world.getCellSize(); i < height + App.world.getCellSize(); i += App.world.getCellSize()) {
                 gc.strokeLine(-App.world.getCellSize(), i, width + App.world.getCellSize(), i);
