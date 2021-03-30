@@ -122,7 +122,9 @@ public class ContentPane {
             }
         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
             selectionManager.finish();
-            selectionManager.setStart(new Coordinates((float)mouseEvent.getX(), (float)mouseEvent.getY()));
+            if (App.world.getState() != World.RUNNING) {
+                selectionManager.setStart(new Coordinates((float) mouseEvent.getX(), (float) mouseEvent.getY()));
+            }
         }
     }
 
