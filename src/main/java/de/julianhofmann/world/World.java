@@ -341,7 +341,7 @@ public class World {
     public void fillCellsInRect(Coordinates start, Coordinates end, byte value) {
         if (end.getX() > start.getX() && end.getY() > start.getY()) {
 
-            for (float x = start.getX(); x <= end.getX(); x++) {
+            for (float x = start.getX(); x < end.getX(); x++) {
                 for (float y = start.getY(); y < end.getY(); y++) {
                     setCell(x, y, value);
                 }
@@ -486,7 +486,7 @@ public class World {
 
         if (end.getX() > start.getX() && end.getY() > start.getY()) {
 
-            for (float x = start.getX(); x <= end.getX(); x ++) {
+            for (float x = start.getX(); x < end.getX(); x ++) {
                 for (float y = start.getY(); y < end.getY(); y++) {
                     if (getCell(new Coordinates(x, y)) == 1) {
                         result.put(new Coordinates(x - start.getX(), y - start.getY()), (byte) 1);

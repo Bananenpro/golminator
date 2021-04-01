@@ -1,5 +1,6 @@
 package de.julianhofmann.ui;
 
+import com.sun.tools.javac.Main;
 import de.julianhofmann.App;
 import de.julianhofmann.world.Coordinates;
 import de.julianhofmann.world.Pattern;
@@ -23,7 +24,6 @@ public class SelectionManager {
     private final BooleanProperty clipboardEmpty = new SimpleBooleanProperty(true);
 
     public void draw(GraphicsContext gc) {
-
         if (isSelecting(true)) {
 
             Coordinates start = getDrawStart();
@@ -43,7 +43,7 @@ public class SelectionManager {
             gc.strokeRect(start.getX(), start.getY(), getSize().getX(), getSize().getY());
         }
     }
-
+    
     public void snap() {
         if (start != null)
             start = start.toWorldCoordinates(App.world, true).toCanvasCoordinates(App.world);
@@ -93,6 +93,125 @@ public class SelectionManager {
         deleted = false;
         pasted = false;
         selecting.set(false);
+    }
+
+    public void rotateRight() {
+        if (isSelecting(false)) {
+            HashMap<Coordinates, Byte> cellsCache = new HashMap<>();
+
+            selectedCells.forEach((c, b) -> cellsCache.put(new Coordinates(c.getY(), c.getX()), b));
+
+            float endXBefore = end.getX();
+            float endYBefore = end.getY();
+
+            float endX = start.getX() + (end.getY() - start.getY());
+            float endY = start.getY() + (end.getX() - start.getX());
+            end = new Coordinates(endX, endY);
+
+            Coordinates size = new Coordinates(getSize().getX() / App.world.getCellSize(), getSize().getY() / App.world.getCellSize());
+
+            selectedCells.clear();
+            cellsCache.forEach((c, b) -> selectedCells.put(new Coordinates(size.getX() - c.getX() - 1, c.getY()), b));
+
+            move(new Coordinates((endXBefore - endX) / 2, (endYBefore - endY) / 2), false);
+            
+            if (Math.abs(end.getX() - start.getX()) > Math.abs(end.getY() - start.getY())) {
+                int startWorldX = (int) Math.floor((start.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int startWorldY = (int) Math.floor((start.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float startWindowX = startWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float startWindowY = startWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                int endWorldX = (int) Math.floor((end.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int endWorldY = (int) Math.floor((end.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float endWindowX = endWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float endWindowY = endWorldY * App.world.getCellSize() + App.world.getCameraY();
+                
+                start = new Coordinates(startWindowX, startWindowY);
+                end = new Coordinates(endWindowX, endWindowY);
+            } else if (Math.abs(end.getX() - start.getX()) < Math.abs(end.getY() - start.getY())) {
+                int startWorldX = (int) Math.ceil((start.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int startWorldY = (int) Math.ceil((start.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float startWindowX = startWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float startWindowY = startWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                int endWorldX = (int) Math.ceil((end.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int endWorldY = (int) Math.ceil((end.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float endWindowX = endWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float endWindowY = endWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                start = new Coordinates(startWindowX, startWindowY);
+                end = new Coordinates(endWindowX, endWindowY);
+            }
+        }
+    }
+
+    public void rotateLeft() {
+        if (isSelecting(false)) {
+            HashMap<Coordinates, Byte> cellsCache = new HashMap<>();
+
+            Coordinates size = new Coordinates(getSize().getX() / App.world.getCellSize(), getSize().getY() / App.world.getCellSize());
+
+            selectedCells.forEach((c, b) -> cellsCache.put(new Coordinates(size.getX() - c.getX() - 1, c.getY()), b));
+
+            selectedCells.clear();
+
+            cellsCache.forEach((c, b) -> selectedCells.put(new Coordinates(c.getY(), c.getX()), b));
+
+            float endXBefore = end.getX();
+            float endYBefore = end.getY();
+
+            float endX = start.getX() + (end.getY() - start.getY());
+            float endY = start.getY() + (end.getX() - start.getX());
+            end = new Coordinates(endX, endY);
+
+            move(new Coordinates((endXBefore - endX) / 2, (endYBefore - endY) / 2), false);
+
+            if (Math.abs(end.getX() - start.getX()) > Math.abs(end.getY() - start.getY())) {
+                int startWorldX = (int) Math.floor((start.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int startWorldY = (int) Math.floor((start.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float startWindowX = startWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float startWindowY = startWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                int endWorldX = (int) Math.floor((end.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int endWorldY = (int) Math.floor((end.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float endWindowX = endWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float endWindowY = endWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                start = new Coordinates(startWindowX, startWindowY);
+                end = new Coordinates(endWindowX, endWindowY);
+            } else if (Math.abs(end.getX() - start.getX()) < Math.abs(end.getY() - start.getY())) {
+                int startWorldX = (int) Math.ceil((start.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int startWorldY = (int) Math.ceil((start.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float startWindowX = startWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float startWindowY = startWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                int endWorldX = (int) Math.ceil((end.getX() - App.world.getCameraX()) / App.world.getCellSize());
+                int endWorldY = (int) Math.ceil((end.getY() - App.world.getCameraY()) / App.world.getCellSize());
+                float endWindowX = endWorldX * App.world.getCellSize() + App.world.getCameraX();
+                float endWindowY = endWorldY * App.world.getCellSize() + App.world.getCameraY();
+
+                start = new Coordinates(startWindowX, startWindowY);
+                end = new Coordinates(endWindowX, endWindowY);
+            }
+        }
+    }
+
+    public void flipHorizontal() {
+        if (isSelecting(false)) {
+            HashMap<Coordinates, Byte> newSelectedCells = new HashMap<>();
+            Coordinates size = new Coordinates(getSize().getX() / App.world.getCellSize(), getSize().getY() / App.world.getCellSize());
+            selectedCells.forEach((c, b) -> newSelectedCells.put(new Coordinates(size.getX() - c.getX() - 1 , c.getY()), b));
+            selectedCells = newSelectedCells;
+        }
+    }
+
+    public void flipVertical() {
+        if (isSelecting(false)) {
+            HashMap<Coordinates, Byte> newSelectedCells = new HashMap<>();
+            Coordinates size = new Coordinates(getSize().getX() / App.world.getCellSize(), getSize().getY() / App.world.getCellSize());
+            selectedCells.forEach((c, b) -> newSelectedCells.put(new Coordinates(c.getX(), size.getY() - c.getY() - 1 ), b));
+            selectedCells = newSelectedCells;
+        }
     }
 
     public boolean isInSelection(Coordinates point) {

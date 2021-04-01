@@ -16,202 +16,200 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1200.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.julianhofmann.ui.PrimaryController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1200.0" styleClass="background" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.julianhofmann.ui.PrimaryController">
    <top>
        <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
            <MenuBar>
                <Menu mnemonicParsing="false" text="Datei">
                    <MenuItem mnemonicParsing="false" onAction="#newFile" text="Neu">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem mnemonicParsing="false" onAction="#openFile" text="Öffnen...">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveFile" text="Speichern">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem mnemonicParsing="false" onAction="#saveFileAs" text="Speichern unter...">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
-                   <MenuItem fx:id="saveSelectionMenuItem" mnemonicParsing="false" onAction="#saveSelection"
-                             text="Auswahl speichern...">
+                   <SeparatorMenuItem mnemonicParsing="false" />
+                   <MenuItem fx:id="saveSelectionMenuItem" mnemonicParsing="false" onAction="#saveSelection" text="Auswahl speichern...">
                        <accelerator>
-                           <KeyCodeCombination alt="DOWN" code="S" control="UP" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="DOWN" code="S" control="UP" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
+                   <SeparatorMenuItem mnemonicParsing="false" />
                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Beenden">
                        <accelerator>
-                           <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                </Menu>
                <Menu mnemonicParsing="false" text="Bearbeiten">
                    <MenuItem fx:id="undoMenuItem" mnemonicParsing="false" onAction="#undo" text="Rückgängig">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="redoMenuItem" mnemonicParsing="false" onAction="#redo" text="Wiederholen">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
+                   <SeparatorMenuItem mnemonicParsing="false" />
                    <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#copy" text="Kopieren">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="cutMenuItem" mnemonicParsing="false" onAction="#cut" text="Ausschneiden">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="pasteMenuItem" mnemonicParsing="false" onAction="#paste" text="Einfügen">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
+               <SeparatorMenuItem mnemonicParsing="false" />
+                   <Menu fx:id="rotateMenu" mnemonicParsing="false" text="Drehen">
+                       <MenuItem fx:id="rotateLeftMenuItem" mnemonicParsing="false" onAction="#rotateLeft" text="Links">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP"
+                                                   shortcut="ANY"/>
+                           </accelerator>
+                       </MenuItem>
+                       <MenuItem fx:id="rotateRightMenuItem" mnemonicParsing="false" onAction="#rotateRight"
+                                 text="Rechts">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="UP"
+                                                   shortcut="ANY"/>
+                           </accelerator>
+                       </MenuItem>
+                   </Menu>
+                   <Menu fx:id="flipMenu" mnemonicParsing="false" text="Spiegeln">
+                       <MenuItem fx:id="flipHorizontalMenuItem" mnemonicParsing="false" onAction="#flipHorizontal"
+                                 text="Horizontal">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="DOWN"
+                                                   shortcut="UP"/>
+                           </accelerator>
+                       </MenuItem>
+                       <MenuItem fx:id="flipVerticalMenuItem" mnemonicParsing="false" onAction="#flipVertical"
+                                 text="Vertikal">
+                           <accelerator>
+                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="DOWN"
+                                                   shortcut="UP"/>
+                           </accelerator>
+                       </MenuItem>
+                   </Menu>
+                   <SeparatorMenuItem mnemonicParsing="false" />
                    <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#delete" text="Löschen">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="UP" shift="UP"
-                                               shortcut="ANY"/>
+                           <KeyCodeCombination alt="UP" code="BACK_SPACE" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                        </accelerator>
                    </MenuItem>
                </Menu>
                <Menu mnemonicParsing="false" text="Simulation">
                    <MenuItem fx:id="playMenuItem" mnemonicParsing="false" onAction="#play" text="Start">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="F5" control="UP" meta="UP" shift="UP"
-                                               shortcut="ANY"/>
+                           <KeyCodeCombination alt="UP" code="F5" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="pauseMenuItem" mnemonicParsing="false" onAction="#pause" text="Pause">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="F5" control="UP" meta="UP" shift="DOWN"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="F5" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
                    <MenuItem fx:id="stopMenuItem" mnemonicParsing="false" onAction="#stop" text="Stop">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="F5" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="F5" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
+                   <SeparatorMenuItem mnemonicParsing="false" />
                    <Menu mnemonicParsing="false" text="Geschwindigkeit">
-                       <MenuItem fx:id="fasterMenuItem" mnemonicParsing="false"
-                                 onAction="#speedUpSimulation" text="Schneller">
+                       <MenuItem fx:id="fasterMenuItem" mnemonicParsing="false" onAction="#speedUpSimulation" text="Schneller">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="UP" control="UP" meta="UP" shift="UP"
-                                                   shortcut="ANY"/>
+                               <KeyCodeCombination alt="UP" code="UP" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                            </accelerator>
                        </MenuItem>
                        <MenuItem mnemonicParsing="false" onAction="#slowDownSimulation" text="Langsamer">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="DOWN" control="UP" meta="UP" shift="UP"
-                                                   shortcut="ANY"/>
+                               <KeyCodeCombination alt="UP" code="DOWN" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                            </accelerator>
                        </MenuItem>
-                       <SeparatorMenuItem mnemonicParsing="false"/>
-                       <MenuItem mnemonicParsing="false" onAction="#changeSimulationDelay"
-                                 text="Verzögerung ändern...">
+                       <SeparatorMenuItem mnemonicParsing="false" />
+                       <MenuItem mnemonicParsing="false" onAction="#changeSimulationDelay" text="Verzögerung ändern...">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="DOWN"
-                                                   shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
-                       <SeparatorMenuItem mnemonicParsing="false"/>
-                       <MenuItem fx:id="resetSpeedMenuItem" mnemonicParsing="false"
-                                 onAction="#resetSimulationDelay" text="Zurücksetzen">
+                       <SeparatorMenuItem mnemonicParsing="false" />
+                       <MenuItem fx:id="resetSpeedMenuItem" mnemonicParsing="false" onAction="#resetSimulationDelay" text="Zurücksetzen">
                            <accelerator>
-                               <KeyCodeCombination alt="DOWN" code="BACK_SPACE" control="UP" meta="UP"
-                                                   shift="UP" shortcut="UP"/>
+                               <KeyCodeCombination alt="DOWN" code="BACK_SPACE" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
                    </Menu>
                </Menu>
                <Menu mnemonicParsing="false" text="Ansicht">
                    <Menu mnemonicParsing="false" text="Zoom">
-                       <MenuItem fx:id="zoomInMenuItem" mnemonicParsing="false" onAction="#zoomIn"
-                                 text="Vergrößern">
+                       <MenuItem fx:id="zoomInMenuItem" mnemonicParsing="false" onAction="#zoomIn" text="Vergrößern">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="PLUS" control="DOWN" meta="UP" shift="UP"
-                                                   shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="PLUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
-                       <MenuItem fx:id="zoomOutMenuItem" mnemonicParsing="false" onAction="#zoomOut"
-                                 text="Verkleinern">
+                       <MenuItem fx:id="zoomOutMenuItem" mnemonicParsing="false" onAction="#zoomOut" text="Verkleinern">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="MINUS" control="DOWN" meta="UP" shift="UP"
-                                                   shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="MINUS" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
-                       <SeparatorMenuItem mnemonicParsing="false"/>
-                       <MenuItem fx:id="resetZoomMenuItem" mnemonicParsing="false" onAction="#resetZoom"
-                                 text="Zurücksetzen">
+                       <SeparatorMenuItem mnemonicParsing="false" />
+                       <MenuItem fx:id="resetZoomMenuItem" mnemonicParsing="false" onAction="#resetZoom" text="Zurücksetzen">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="DIGIT0" control="DOWN" meta="UP"
-                                                   shift="UP" shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="DIGIT0" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
                    </Menu>
-                   <MenuItem fx:id="resetCameraMenuItem" mnemonicParsing="false" onAction="#resetCamera"
-                             text="Kamera zurücksetzen">
+                   <MenuItem fx:id="resetCameraMenuItem" mnemonicParsing="false" onAction="#resetCamera" text="Kamera zurücksetzen">
                        <accelerator>
-                           <KeyCodeCombination alt="UP" code="BACK_SPACE" control="DOWN" meta="UP" shift="UP"
-                                               shortcut="UP"/>
+                           <KeyCodeCombination alt="UP" code="BACK_SPACE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                        </accelerator>
                    </MenuItem>
-                   <SeparatorMenuItem mnemonicParsing="false"/>
-                   <CheckMenuItem fx:id="themeMenuItem" mnemonicParsing="false" text="Dunkles Thema verwenden"/>
+                   <SeparatorMenuItem mnemonicParsing="false" />
+                   <CheckMenuItem fx:id="themeMenuItem" mnemonicParsing="false" text="Dunkles Thema verwenden" />
                </Menu>
            </MenuBar>
            <HBox fx:id="toolBar" alignment="CENTER" prefHeight="37.0">
                <padding>
-                   <Insets bottom="5.0" top="5.0"/>
+                   <Insets bottom="5.0" top="5.0" />
                </padding>
                <Text fx:id="fileNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="&gt;&gt; Unbenannt.gol">
                    <font>
-                       <Font size="14.0"/>
+                       <Font size="14.0" />
                    </font>
                </Text>
-               <Pane prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+               <Pane prefWidth="200.0" HBox.hgrow="ALWAYS" />
                <HBox spacing="7.0">
                    <opaqueInsets>
-                       <Insets/>
+                       <Insets />
                    </opaqueInsets>
                    <padding>
-                       <Insets right="10.0"/>
+                       <Insets right="10.0" />
                    </padding>
-                   <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0"
-                           mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="25.0"/>
-                   <Button fx:id="pauseButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0"
-                           mnemonicParsing="false" onAction="#pause" prefHeight="25.0" prefWidth="25.0"/>
-                   <Button fx:id="stopButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0"
-                           mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="25.0"/>
+                   <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="25.0" />
+                   <Button fx:id="pauseButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#pause" prefHeight="25.0" prefWidth="25.0" />
+                   <Button fx:id="stopButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="25.0" />
                </HBox>
            </HBox>
        </VBox>
@@ -221,25 +219,24 @@
          <bottom>
              <HBox prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                  </padding>
                  <Text fx:id="delayIndicator" strokeType="OUTSIDE" strokeWidth="0.0" text="100ms/100ms">
                     <font>
-                        <Font size="11.0"/>
+                        <Font size="11.0" />
                     </font>
                  </Text>
-                 <Pane HBox.hgrow="ALWAYS"/>
-                 <Text fx:id="zoomIndicator" layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                       text="100%">
+                 <Pane HBox.hgrow="ALWAYS" />
+                 <Text fx:id="zoomIndicator" layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%">
                     <font>
-                        <Font size="11.0"/>
+                        <Font size="11.0" />
                     </font>
                  </Text>
              </HBox>
          </bottom>
          <center>
              <Pane fx:id="canvasPane">
-                 <Canvas fx:id="canvas"/>
+                 <Canvas fx:id="canvas" />
              </Pane>
          </center>
       </BorderPane>
@@ -249,16 +246,15 @@
          <top>
              <HBox fx:id="leftPaneToolBar" alignment="CENTER" prefWidth="200.0" BorderPane.alignment="CENTER">
                  <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                  </padding>
                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Strukturen">
                     <font>
-                        <Font size="12.0"/>
+                        <Font size="12.0" />
                     </font>
                  </Text>
-                 <Pane prefWidth="200.0"/>
-                 <Button fx:id="deleteTreeItemButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0"
-                         mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0"/>
+                 <Pane prefWidth="200.0" />
+                 <Button fx:id="deleteTreeItemButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0" />
              </HBox>
          </top>
       </BorderPane>

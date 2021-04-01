@@ -27,6 +27,8 @@ public class PrimaryController implements Initializable {
     @FXML private Pane canvasPane;
     @FXML private Canvas canvas;
     @FXML private MenuItem saveMenuItem, saveSelectionMenuItem;
+    @FXML private Menu rotateMenu, flipMenu;
+    @FXML private MenuItem rotateLeftMenuItem, rotateRightMenuItem, flipHorizontalMenuItem, flipVerticalMenuItem;
     @FXML private MenuItem undoMenuItem, redoMenuItem, copyMenuItem, cutMenuItem, pasteMenuItem, deleteMenuItem;
     @FXML private MenuItem playMenuItem, pauseMenuItem, stopMenuItem, fasterMenuItem, resetSpeedMenuItem;
     @FXML private MenuItem zoomInMenuItem, zoomOutMenuItem, resetZoomMenuItem, resetCameraMenuItem;
@@ -240,6 +242,26 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
+    private void rotateLeft() {
+        App.ui.getContentPane().getSelectionManager().rotateLeft();
+    }
+
+    @FXML
+    private void rotateRight() {
+        App.ui.getContentPane().getSelectionManager().rotateRight();
+    }
+
+    @FXML
+    private void flipHorizontal() {
+        App.ui.getContentPane().getSelectionManager().flipHorizontal();
+    }
+
+    @FXML
+    private void flipVertical() {
+        App.ui.getContentPane().getSelectionManager().flipVertical();
+    }
+
+    @FXML
     private void delete() {
         App.ui.getContentPane().getSelectionManager().delete();
     }
@@ -354,6 +376,12 @@ public class PrimaryController implements Initializable {
         copyMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
         cutMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
         pasteMenuItem.setDisable(App.world.getState() == World.RUNNING || App.ui.getContentPane().getSelectionManager().isClipboardEmpty());
+        rotateMenu.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
+        rotateLeftMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
+        rotateRightMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
+        flipMenu.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
+        flipHorizontalMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
+        flipVerticalMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
         deleteMenuItem.setDisable(App.world.getState() == World.RUNNING || !App.ui.getContentPane().getSelectionManager().isSelecting());
     }
 
