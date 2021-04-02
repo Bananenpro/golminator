@@ -13,6 +13,7 @@ public class Loop {
     private boolean running;
     private final IntegerProperty updateDelay = new SimpleIntegerProperty(DEFAULT_UPDATE_DELAY);
     private final IntegerProperty actualUpdateDelay = new SimpleIntegerProperty(updateDelay.get());
+    private long lastActualUpdateDelayIndicatorUpdate;
     private boolean finished;
     private int drawTimerIterations;
     private long deltaMillisCombined;
@@ -127,6 +128,10 @@ public class Loop {
 
     private void setActualUpdateDelay(int actualUpdateDelay) {
         this.actualUpdateDelay.set(actualUpdateDelay);
+        if (actualUpdateDelay > 100 || (System.nanoTime() - lastActualUpdateDelayIndicatorUpdate) / 1000000d > 100) {
+            lastActualUpdateDelayIndicatorUpdate = System.nanoTime();
+            App.ui.getPrimaryController().updateStatusBar();
+        }
     }
 
     public void addUpdateDelay(int amount) {

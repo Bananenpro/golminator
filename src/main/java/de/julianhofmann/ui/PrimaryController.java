@@ -145,8 +145,9 @@ public class PrimaryController implements Initializable {
 
     private void initStatusBar() {
         App.loop.updateDelayProperty().addListener((p, o, n) -> updateStatusBar());
-        App.loop.actualUpdateDelayProperty().addListener((p, o, n) -> updateStatusBar());
         App.world.cellSizeProperty().addListener((p, o, n) -> updateStatusBar());
+        App.world.cameraXProperty().addListener((p, o, n) -> updateStatusBar());
+        App.world.cameraYProperty().addListener((p, o, n) -> updateStatusBar());
         updateStatusBar();
     }
 
@@ -428,8 +429,8 @@ public class PrimaryController implements Initializable {
         zoomInMenuItem.setDisable(App.world.getCellSize() == World.MAX_CELL_SIZE);
     }
 
-    private void updateStatusBar() {
-        delayIndicator.setText(App.loop.getActualUpdateDelay() + "ms/" + App.loop.getUpdateDelay() + "ms");
-        zoomIndicator.setText(Math.round((App.world.getCellSize() * 10)) + "%");
+    public void updateStatusBar() {
+        delayIndicator.setText("Verzögerung: " + App.loop.getActualUpdateDelay() + "ms/" + App.loop.getUpdateDelay() + "ms");
+        zoomIndicator.setText("Zoom: " + Math.round((App.world.getCellSize() * 10)) + "%");
     }
 }

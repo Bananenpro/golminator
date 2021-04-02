@@ -210,21 +210,21 @@
    <center>
       <BorderPane prefWidth="200.0" BorderPane.alignment="CENTER">
          <bottom>
-             <HBox prefHeight="25.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+             <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                  <padding>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                  </padding>
-                 <Text fx:id="delayIndicator" strokeType="OUTSIDE" strokeWidth="0.0" text="100ms/100ms">
+                 <Text fx:id="delayIndicator" strokeType="OUTSIDE" strokeWidth="0.0" text="Verzögerung: 100ms/100ms">
                     <font>
                         <Font size="11.0" />
                     </font>
                  </Text>
                  <Pane HBox.hgrow="ALWAYS" />
-                 <Text fx:id="zoomIndicator" layoutX="10.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100%">
-                    <font>
-                        <Font size="11.0" />
-                    </font>
-                 </Text>
+               <Text fx:id="zoomIndicator" layoutX="934.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom: 100%">
+                  <font>
+                     <Font size="11.0" />
+                  </font>
+               </Text>
              </HBox>
          </bottom>
          <center>
@@ -249,20 +249,14 @@
                  <Pane prefWidth="200.0" />
                  <HBox spacing="7.0">
                      <opaqueInsets>
-                         <Insets/>
+                         <Insets />
                      </opaqueInsets>
                      <padding>
-                         <Insets right="10.0"/>
+                         <Insets right="3.0" />
                      </padding>
-                     <Button fx:id="changeCategoryButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0"
-                             minWidth="25.0" mnemonicParsing="false" onAction="#changeCategory" prefHeight="25.0"
-                             prefWidth="25.0"/>
-                     <Button fx:id="renameTreeItemButton" layoutX="10.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0"
-                             minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#renameTreeItem"
-                             prefHeight="25.0" prefWidth="25.0"/>
-                     <Button fx:id="deleteTreeItemButton" layoutX="42.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0"
-                             minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem"
-                             prefHeight="25.0" prefWidth="25.0"/>
+                     <Button fx:id="changeCategoryButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#changeCategory" prefHeight="25.0" prefWidth="25.0" />
+                     <Button fx:id="renameTreeItemButton" layoutX="10.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#renameTreeItem" prefHeight="25.0" prefWidth="25.0" />
+                     <Button fx:id="deleteTreeItemButton" layoutX="42.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0" />
                  </HBox>
              </HBox>
          </top>
