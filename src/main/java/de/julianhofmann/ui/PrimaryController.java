@@ -2,6 +2,7 @@ package de.julianhofmann.ui;
 
 import de.julianhofmann.App;
 import de.julianhofmann.Loop;
+import de.julianhofmann.world.PatternCategory;
 import de.julianhofmann.world.World;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,9 +36,10 @@ public class PrimaryController implements Initializable {
     @FXML private Text fileNameLabel;
     @FXML private BorderPane leftPane;
     @FXML private Text delayIndicator, zoomIndicator;
-    @FXML private Button deleteTreeItemButton;
+    @FXML private Button changeCategoryButton, renameTreeItemButton, deleteTreeItemButton;
 
-    private ImageView playIcon, playIconDisabled, pauseIcon, pauseIconDisabled, stopIcon, stopIconDisabled, deleteIcon, deleteIconDisabled;
+    private ImageView playIcon, playIconDisabled, pauseIcon, pauseIconDisabled, stopIcon, stopIconDisabled;
+    private ImageView changeCategoryIcon, changeCategoryIconDisabled, renameIcon, renameIconDisabled, deleteIcon, deleteIconDisabled;
 
     /* ******************** Initialization *************************** */
 
@@ -68,16 +70,12 @@ public class PrimaryController implements Initializable {
         playIconDisabled.setFitHeight(15);
         playIconDisabled.setPreserveRatio(true);
 
-        playButton.setGraphic(playIcon);
-
         pauseIcon = new ImageView(new Image(new File("rsc/icons/pause_btn.png").toURI().toString()));
         pauseIconDisabled = new ImageView(new Image(new File("rsc/icons/pause_btn_disabled.png").toURI().toString()));
         pauseIcon.setFitHeight(15);
         pauseIcon.setPreserveRatio(true);
         pauseIconDisabled.setFitHeight(15);
         pauseIconDisabled.setPreserveRatio(true);
-
-        pauseButton.setGraphic(pauseIcon);
 
         stopIcon = new ImageView(new Image(new File("rsc/icons/stop_btn.png").toURI().toString()));
         stopIconDisabled = new ImageView(new Image(new File("rsc/icons/stop_btn_disabled.png").toURI().toString()));
@@ -86,8 +84,19 @@ public class PrimaryController implements Initializable {
         stopIconDisabled.setFitHeight(15);
         stopIconDisabled.setPreserveRatio(true);
 
-        stopButton.setGraphic(stopIcon);
+        changeCategoryIcon = new ImageView(new Image(new File("rsc/icons/change_category_btn.png").toURI().toString()));
+        changeCategoryIconDisabled = new ImageView(new Image(new File("rsc/icons/change_category_btn_disabled.png").toURI().toString()));
+        changeCategoryIcon.setFitHeight(18);
+        changeCategoryIcon.setPreserveRatio(true);
+        changeCategoryIconDisabled.setFitHeight(18);
+        changeCategoryIconDisabled.setPreserveRatio(true);
 
+        renameIcon = new ImageView(new Image(new File("rsc/icons/rename_btn.png").toURI().toString()));
+        renameIconDisabled = new ImageView(new Image(new File("rsc/icons/rename_btn_disabled.png").toURI().toString()));
+        renameIcon.setFitHeight(18);
+        renameIcon.setPreserveRatio(true);
+        renameIconDisabled.setFitHeight(18);
+        renameIconDisabled.setPreserveRatio(true);
 
         deleteIcon = new ImageView(new Image(new File("rsc/icons/delete_btn.png").toURI().toString()));
         deleteIconDisabled = new ImageView(new Image(new File("rsc/icons/delete_btn_disabled.png").toURI().toString()));
@@ -95,8 +104,6 @@ public class PrimaryController implements Initializable {
         deleteIcon.setPreserveRatio(true);
         deleteIconDisabled.setFitHeight(18);
         deleteIconDisabled.setPreserveRatio(true);
-
-        stopButton.setGraphic(deleteIcon);
 
         App.world.stateProperty().addListener((p, o, n) -> updateToolBarButtons());
 
@@ -161,8 +168,18 @@ public class PrimaryController implements Initializable {
     }
 
     @FXML
+    private void changeCategory() {
+        App.ui.getPatternList().changeCategory();
+    }
+
+    @FXML
+    private void renameTreeItem() {
+        App.ui.getPatternList().renameTreeItem();
+    }
+
+    @FXML
     private void deleteTreeItem() {
-        App.ui.getPatternList().deletePattern();
+        App.ui.getPatternList().deleteTreeItem();
     }
 
     /* ************************ Menu Action Methods ************************** */
@@ -200,7 +217,7 @@ public class PrimaryController implements Initializable {
                 String category = App.ui.inputDialog("Auswahl speichern", "Kategorie:", "");
                 if (!category.isBlank()) {
                     if (!App.ui.getPatternList().getPatternManager().savePattern(name, category, App.ui.getContentPane().getSelectionManager().toJson(name, category))) {
-                        App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Das Muster konnte nicht gespeichert werden!");
+                        App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Die Struktur konnte nicht gespeichert werden!");
                     }
                 }
             } else {
@@ -331,6 +348,8 @@ public class PrimaryController implements Initializable {
             playButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #353535");
             pauseButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #353535");
             stopButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #353535");
+            changeCategoryButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #404040");
+            renameTreeItemButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #404040");
             deleteTreeItemButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #404040");
         } else {
             toolBar.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #E0E0E0");
@@ -338,6 +357,8 @@ public class PrimaryController implements Initializable {
             playButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #E0E0E0");
             pauseButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #E0E0E0");
             stopButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #E0E0E0");
+            changeCategoryButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #EAEAEA");
+            renameTreeItemButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #EAEAEA");
             deleteTreeItemButton.setStyle("-fx-border-width: 0; -fx-border-color: none; -fx-background-color: #EAEAEA");
         }
     }
@@ -352,8 +373,14 @@ public class PrimaryController implements Initializable {
         stopButton.setDisable(App.world.getState() == World.STOPPED);
         stopButton.setGraphic(stopButton.isDisable() ? stopIconDisabled : stopIcon);
 
+        changeCategoryButton.setDisable(App.world.getState() == World.RUNNING || App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null || App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem().getValue() instanceof PatternCategory);
+        changeCategoryButton.setGraphic(changeCategoryButton.isDisable() ? changeCategoryIconDisabled : changeCategoryIcon);
+
+        renameTreeItemButton.setDisable(App.world.getState() == World.RUNNING || App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null);
+        renameTreeItemButton.setGraphic(renameTreeItemButton.isDisable() ? renameIconDisabled : renameIcon);
+
         deleteTreeItemButton.setDisable(App.world.getState() == World.RUNNING || App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null);
-        deleteTreeItemButton.setGraphic(App.ui.getPatternList().getTreeView().getSelectionModel().getSelectedItem() == null ? deleteIconDisabled : deleteIcon);
+        deleteTreeItemButton.setGraphic(deleteTreeItemButton.isDisable() ? deleteIconDisabled : deleteIcon);
     }
 
     private void updateFileNameLabel() {

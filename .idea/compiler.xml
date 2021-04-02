@@ -10,8 +10,5 @@
         <module name="golminator" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="GOLminator" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -30,17 +30,15 @@ public class PatternManager {
 
     public boolean savePattern(String name, String category, String json) {
         if (name.isBlank() || category.isBlank() || json == null || json.isBlank()) return false;
-        if (!nameExists(name)) {
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(PatternManager.PATTERN_DIRECTORY + name + ".json"));
-                writer.write(json);
-                writer.flush();
-                writer.close();
-                refreshPatterns();
-                return true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(PatternManager.PATTERN_DIRECTORY + name + ".json"));
+            writer.write(json);
+            writer.flush();
+            writer.close();
+            refreshPatterns();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return false;
     }

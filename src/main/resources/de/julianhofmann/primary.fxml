@@ -85,31 +85,24 @@
                    <Menu fx:id="rotateMenu" mnemonicParsing="false" text="Drehen">
                        <MenuItem fx:id="rotateLeftMenuItem" mnemonicParsing="false" onAction="#rotateLeft" text="Links">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP"
-                                                   shortcut="ANY"/>
+                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                            </accelerator>
                        </MenuItem>
-                       <MenuItem fx:id="rotateRightMenuItem" mnemonicParsing="false" onAction="#rotateRight"
-                                 text="Rechts">
+                       <MenuItem fx:id="rotateRightMenuItem" mnemonicParsing="false" onAction="#rotateRight" text="Rechts">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="UP"
-                                                   shortcut="ANY"/>
+                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="UP" shortcut="ANY" />
                            </accelerator>
                        </MenuItem>
                    </Menu>
                    <Menu fx:id="flipMenu" mnemonicParsing="false" text="Spiegeln">
-                       <MenuItem fx:id="flipHorizontalMenuItem" mnemonicParsing="false" onAction="#flipHorizontal"
-                                 text="Horizontal">
+                       <MenuItem fx:id="flipHorizontalMenuItem" mnemonicParsing="false" onAction="#flipHorizontal" text="Horizontal">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="DOWN"
-                                                   shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="COMMA" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
-                       <MenuItem fx:id="flipVerticalMenuItem" mnemonicParsing="false" onAction="#flipVertical"
-                                 text="Vertikal">
+                       <MenuItem fx:id="flipVerticalMenuItem" mnemonicParsing="false" onAction="#flipVertical" text="Vertikal">
                            <accelerator>
-                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="DOWN"
-                                                   shortcut="UP"/>
+                               <KeyCodeCombination alt="UP" code="PERIOD" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator>
                        </MenuItem>
                    </Menu>
@@ -254,7 +247,23 @@
                     </font>
                  </Text>
                  <Pane prefWidth="200.0" />
-                 <Button fx:id="deleteTreeItemButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0" />
+                 <HBox spacing="7.0">
+                     <opaqueInsets>
+                         <Insets/>
+                     </opaqueInsets>
+                     <padding>
+                         <Insets right="10.0"/>
+                     </padding>
+                     <Button fx:id="changeCategoryButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0"
+                             minWidth="25.0" mnemonicParsing="false" onAction="#changeCategory" prefHeight="25.0"
+                             prefWidth="25.0"/>
+                     <Button fx:id="renameTreeItemButton" layoutX="10.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0"
+                             minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#renameTreeItem"
+                             prefHeight="25.0" prefWidth="25.0"/>
+                     <Button fx:id="deleteTreeItemButton" layoutX="42.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0"
+                             minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem"
+                             prefHeight="25.0" prefWidth="25.0"/>
+                 </HBox>
              </HBox>
          </top>
       </BorderPane>

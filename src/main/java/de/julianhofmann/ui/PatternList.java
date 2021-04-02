@@ -73,7 +73,7 @@ public class PatternList {
             }
         });
 
-        newTreeView.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> deletePattern());
+        newTreeView.addEventFilter(KeyEvent.KEY_TYPED, keyEvent -> deleteTreeItem());
 
         App.world.stateProperty().addListener((p, o, n) -> newTreeView.setDisable(n.intValue() == World.RUNNING));
         newTreeView.getSelectionModel().selectedItemProperty().addListener((p, o, n) -> App.ui.getPrimaryController().updateToolBarButtons());
@@ -81,7 +81,65 @@ public class PatternList {
         return newTreeView;
     }
 
-    public void deletePattern() {
+    public void changeCategory() {
+        TreeItem<Pattern> selectedItem = treeView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            String name = App.ui.inputDialog("Kategorie ändern", "Neue Kategorie:", selectedItem.getValue().toString());
+            if (name.isBlank() || name.equals(selectedItem.getValue().toString())) {
+                return;
+            }
+            if (!(selectedItem.getValue() instanceof PatternCategory)) {
+                for (Pattern pattern : patternManager.getPatterns()) {
+                    if (pattern.getCategory().equals(selectedItem.getValue().getCategory())) {
+                        pattern.setCategory(name);
+                        if (!patternManager.savePattern(pattern.getName(), pattern.getCategory(), pattern.toJson())) {
+                            App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Die Kategorie konnte nicht geändert werden!");
+                            return;
+                        }
+                    }
+                }
+            }
+            refresh();
+        }
+    }
+
+    public void renameTreeItem() {
+        TreeItem<Pattern> selectedItem = treeView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            String name = App.ui.inputDialog("Umbenennen", "Neuer Name:", selectedItem.getValue().toString());
+            if (name.isBlank() || name.equals(selectedItem.getValue().toString())) {
+                return;
+            }
+            if (selectedItem.getValue() instanceof PatternCategory) {
+                for (Pattern pattern : patternManager.getPatterns()) {
+                    if (pattern.getCategory().equals(selectedItem.getValue().getCategory())){
+                        pattern.setCategory(name);
+                        if (!patternManager.savePattern(pattern.getName(), pattern.getCategory(), pattern.toJson())) {
+                            App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Die Kategorie konnte nicht umbenannt werden!");
+                            return;
+                        }
+                    }
+                }
+            } else {
+                if (!patternManager.nameExists(name)) {
+                    String oldName = selectedItem.getValue().getName();
+                    selectedItem.getValue().setName(name);
+                    if (!patternManager.savePattern(selectedItem.getValue().getName(), selectedItem.getValue().getCategory(), selectedItem.getValue().toJson())) {
+                        App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Die Struktur konnte nicht umbenannt werden!");
+                        return;
+                    } else {
+                        patternManager.deletePattern(new Pattern(oldName, selectedItem.getValue().getCategory(), selectedItem.getValue().getWidth(), selectedItem.getValue().getHeight(), selectedItem.getValue().getCells()));
+                    }
+                } else {
+                    App.ui.alert(Alert.AlertType.ERROR, "Fehler", "Der Name existiert bereits!");
+                    return;
+                }
+            }
+            refresh();
+        }
+    }
+
+    public void deleteTreeItem() {
         TreeItem<Pattern> selectedItem = treeView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             ButtonType button = App.ui.alert(Alert.AlertType.CONFIRMATION, "Bist du dir sicher?", "Bist du dir sicher, dass du \"" + selectedItem.getValue().toString() + "\" " + (!selectedItem.isLeaf() ? "und alle seine untergeordneten Strukturen " : "") + "löschen möchtest?", ButtonType.YES, ButtonType.NO).orElse(null);
