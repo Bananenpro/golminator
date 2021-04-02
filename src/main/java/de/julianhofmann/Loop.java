@@ -14,13 +14,15 @@ public class Loop {
     private final IntegerProperty updateDelay = new SimpleIntegerProperty(DEFAULT_UPDATE_DELAY);
     private final IntegerProperty actualUpdateDelay = new SimpleIntegerProperty(updateDelay.get());
     private boolean finished;
+    private int drawTimerIterations;
+    private long deltaMillisCombined;
 
     @SuppressWarnings("BusyWait")
     public Loop() {
         drawTimer = new AnimationTimer() {
             @Override
             public void handle(long timestamp) {
-
+                long startNanos = System.nanoTime();
                 if (App.ui.getPatternList().getPatternManager().isChanged()) {
                     App.ui.getPatternList().getPatternManager().setChanged(false);
                     App.ui.getPatternList().refresh();
@@ -39,7 +41,22 @@ public class Loop {
 
                 renderer.snapshot();
 
+                long deltaMillis = Math.round((System.nanoTime() - startNanos) / 1000000d);
+                deltaMillisCombined += deltaMillis;
+                drawTimerIterations ++;
+
                 if (finished) {
+                    long averageDeltaMillis = deltaMillisCombined / drawTimerIterations;
+                    int newMaxDrawCalls = (int) Math.round(((double) renderer.getMaxDrawCalls() / averageDeltaMillis * 15));
+                    if (newMaxDrawCalls > 10000 && newMaxDrawCalls < 1000000) {
+                        if (!(averageDeltaMillis < 15 && newMaxDrawCalls < renderer.getMaxDrawCalls())) {
+                            renderer.setMaxDrawCalls(newMaxDrawCalls);
+                        }
+                    }
+
+                    drawTimerIterations = 0;
+                    deltaMillisCombined = 0;
+
                     App.ui.getContentPane().swapBuffers();
                     App.ui.getContentPane().draw();
                     finished = false;

@@ -9,8 +9,7 @@ import javafx.scene.paint.Color;
 import java.util.*;
 
 public class Renderer {
-    public final int MAX_DRAW_CALLS = 30000;
-
+    private int maxDrawCalls = 10000;
     private final ContentPane contentPane;
     private final Canvas canvas;
     private final LinkedList<Coordinates> drawCells;
@@ -62,7 +61,7 @@ public class Renderer {
         int frameDrawCalls = 0;
 
         // Cells
-        while (frameDrawCalls < MAX_DRAW_CALLS && !drawCells.isEmpty()) {
+        while (frameDrawCalls < maxDrawCalls && !drawCells.isEmpty()) {
             Coordinates coordinates = drawCells.pop();
             gc.fillRect(coordinates.getX(), coordinates.getY(), App.world.getCellSize(), App.world.getCellSize());
             frameDrawCalls++;
@@ -108,5 +107,13 @@ public class Renderer {
 
     public LinkedList<Coordinates> getDrawCells() {
         return drawCells;
+    }
+
+    public int getMaxDrawCalls() {
+        return maxDrawCalls;
+    }
+
+    public void setMaxDrawCalls(int maxDrawCalls) {
+        this.maxDrawCalls = maxDrawCalls;
     }
 }
