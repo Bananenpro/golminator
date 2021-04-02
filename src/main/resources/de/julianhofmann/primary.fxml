@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -200,9 +201,18 @@
                    <padding>
                        <Insets right="10.0" />
                    </padding>
-                   <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="25.0" />
-                   <Button fx:id="pauseButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#pause" prefHeight="25.0" prefWidth="25.0" />
-                   <Button fx:id="stopButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="25.0" />
+                   <Button fx:id="playButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="25.0">
+                  <tooltip>
+                     <Tooltip text="Start" />
+                  </tooltip></Button>
+                   <Button fx:id="pauseButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#pause" prefHeight="25.0" prefWidth="25.0">
+                  <tooltip>
+                     <Tooltip text="Pause" />
+                  </tooltip></Button>
+                   <Button fx:id="stopButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="25.0">
+                  <tooltip>
+                     <Tooltip text="Stop" />
+                  </tooltip></Button>
                </HBox>
            </HBox>
        </VBox>
@@ -254,9 +264,18 @@
                      <padding>
                          <Insets right="3.0" />
                      </padding>
-                     <Button fx:id="changeCategoryButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#changeCategory" prefHeight="25.0" prefWidth="25.0" />
-                     <Button fx:id="renameTreeItemButton" layoutX="10.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#renameTreeItem" prefHeight="25.0" prefWidth="25.0" />
-                     <Button fx:id="deleteTreeItemButton" layoutX="42.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0" />
+                     <Button fx:id="changeCategoryButton" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#changeCategory" prefHeight="25.0" prefWidth="25.0">
+                     <tooltip>
+                        <Tooltip text="Kategorie ändern" />
+                     </tooltip></Button>
+                     <Button fx:id="renameTreeItemButton" layoutX="10.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#renameTreeItem" prefHeight="25.0" prefWidth="25.0">
+                     <tooltip>
+                        <Tooltip text="Umbenennen" />
+                     </tooltip></Button>
+                     <Button fx:id="deleteTreeItemButton" layoutX="42.0" layoutY="10.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#deleteTreeItem" prefHeight="25.0" prefWidth="25.0">
+                     <tooltip>
+                        <Tooltip text="Löschen" />
+                     </tooltip></Button>
                  </HBox>
              </HBox>
          </top>
