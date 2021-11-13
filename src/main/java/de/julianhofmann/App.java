@@ -6,6 +6,8 @@ import de.julianhofmann.world.World;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.io.File;
+
 public class App extends Application {
 
     public static Settings settings;
@@ -15,11 +17,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        settings = new Settings();
-        settings.load();
-
-        world = new World();
-
         loop = new Loop();
 
         ui = new UI(primaryStage);
@@ -35,6 +32,26 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        settings = new Settings();
+        settings.load();
+
+        world = new World();
+
+        if (args.length > 0) {
+            System.err.println("Opening '" + args[0] + "'...");
+            if (!new File(args[0]).exists()) {
+                System.err.println("Couldn't open '" + args[0] + "': No such file");
+                System.exit(1);
+            }
+            if (!args[0].toLowerCase().endsWith(".gol")) {
+                System.err.println("Couldn't open '" + args[0] + "': Invalid file type");
+                System.exit(1);
+            }
+            world.load(args[0]);
+        } else {
+            System.err.println("No file provided. Opening new empty world...");
+        }
+
         launch(args);
     }
 

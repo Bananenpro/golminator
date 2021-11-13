@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class PatternManager {
-    public static final String PATTERN_DIRECTORY = "rsc/patterns/";
+    public static final String PATTERN_DIRECTORY = getDataDir() + "/patterns/";
 
     private ArrayList<Pattern> patterns;
     private List<File> lastFiles;
@@ -145,5 +145,21 @@ public class PatternManager {
 
     public void setChanged(boolean changed) {
         this.changed = changed;
+    }
+
+    private static String getDataDir() {
+        String rootPath;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows")) {
+            rootPath = System.getenv("APPDATA");
+        } else {
+            rootPath = System.getenv("XDG_DATA_HOME");
+
+            if(rootPath == null) {
+                rootPath = System.getProperty("user.home")+"/.local/share";
+            }
+        }
+
+        return rootPath + "/golminator";
     }
 }

@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class PrimaryController implements Initializable {
 
+    public static final String iconsDir = getDataDir() + "/icons/";
+
     @FXML private CheckMenuItem themeMenuItem;
     @FXML private Button playButton, pauseButton, stopButton;
     @FXML private HBox toolBar;
@@ -45,6 +47,9 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //noinspection ResultOfMethodCallIgnored
+        new File(iconsDir).mkdirs();
+
         App.ui.setContentPane(new ContentPane(canvasPane, canvas));
         App.ui.setPatternList(new PatternList(leftPane));
 
@@ -63,43 +68,43 @@ public class PrimaryController implements Initializable {
         App.world.filePathProperty().addListener((p, o, n) -> updateFileNameLabel());
         App.world.savedProperty().addListener((p, o, n) -> updateFileNameLabel());
 
-        playIcon = new ImageView(new Image(new File("rsc/icons/play_btn.png").toURI().toString()));
-        playIconDisabled = new ImageView(new Image(new File("rsc/icons/play_btn_disabled.png").toURI().toString()));
+        playIcon = new ImageView(new Image(new File(iconsDir + "play_btn.png").toURI().toString()));
+        playIconDisabled = new ImageView(new Image(new File(iconsDir + "play_btn_disabled.png").toURI().toString()));
         playIcon.setFitHeight(15);
         playIcon.setPreserveRatio(true);
         playIconDisabled.setFitHeight(15);
         playIconDisabled.setPreserveRatio(true);
 
-        pauseIcon = new ImageView(new Image(new File("rsc/icons/pause_btn.png").toURI().toString()));
-        pauseIconDisabled = new ImageView(new Image(new File("rsc/icons/pause_btn_disabled.png").toURI().toString()));
+        pauseIcon = new ImageView(new Image(new File(iconsDir + "pause_btn.png").toURI().toString()));
+        pauseIconDisabled = new ImageView(new Image(new File(iconsDir + "pause_btn_disabled.png").toURI().toString()));
         pauseIcon.setFitHeight(15);
         pauseIcon.setPreserveRatio(true);
         pauseIconDisabled.setFitHeight(15);
         pauseIconDisabled.setPreserveRatio(true);
 
-        stopIcon = new ImageView(new Image(new File("rsc/icons/stop_btn.png").toURI().toString()));
-        stopIconDisabled = new ImageView(new Image(new File("rsc/icons/stop_btn_disabled.png").toURI().toString()));
+        stopIcon = new ImageView(new Image(new File(iconsDir + "stop_btn.png").toURI().toString()));
+        stopIconDisabled = new ImageView(new Image(new File(iconsDir + "stop_btn_disabled.png").toURI().toString()));
         stopIcon.setFitHeight(15);
         stopIcon.setPreserveRatio(true);
         stopIconDisabled.setFitHeight(15);
         stopIconDisabled.setPreserveRatio(true);
 
-        changeCategoryIcon = new ImageView(new Image(new File("rsc/icons/change_category_btn.png").toURI().toString()));
-        changeCategoryIconDisabled = new ImageView(new Image(new File("rsc/icons/change_category_btn_disabled.png").toURI().toString()));
+        changeCategoryIcon = new ImageView(new Image(new File(iconsDir + "change_category_btn.png").toURI().toString()));
+        changeCategoryIconDisabled = new ImageView(new Image(new File(iconsDir + "change_category_btn_disabled.png").toURI().toString()));
         changeCategoryIcon.setFitHeight(18);
         changeCategoryIcon.setPreserveRatio(true);
         changeCategoryIconDisabled.setFitHeight(18);
         changeCategoryIconDisabled.setPreserveRatio(true);
 
-        renameIcon = new ImageView(new Image(new File("rsc/icons/rename_btn.png").toURI().toString()));
-        renameIconDisabled = new ImageView(new Image(new File("rsc/icons/rename_btn_disabled.png").toURI().toString()));
+        renameIcon = new ImageView(new Image(new File(iconsDir + "rename_btn.png").toURI().toString()));
+        renameIconDisabled = new ImageView(new Image(new File(iconsDir + "rename_btn_disabled.png").toURI().toString()));
         renameIcon.setFitHeight(18);
         renameIcon.setPreserveRatio(true);
         renameIconDisabled.setFitHeight(18);
         renameIconDisabled.setPreserveRatio(true);
 
-        deleteIcon = new ImageView(new Image(new File("rsc/icons/delete_btn.png").toURI().toString()));
-        deleteIconDisabled = new ImageView(new Image(new File("rsc/icons/delete_btn_disabled.png").toURI().toString()));
+        deleteIcon = new ImageView(new Image(new File(iconsDir + "delete_btn.png").toURI().toString()));
+        deleteIconDisabled = new ImageView(new Image(new File(iconsDir + "delete_btn_disabled.png").toURI().toString()));
         deleteIcon.setFitHeight(18);
         deleteIcon.setPreserveRatio(true);
         deleteIconDisabled.setFitHeight(18);
@@ -432,5 +437,21 @@ public class PrimaryController implements Initializable {
     public void updateStatusBar() {
         delayIndicator.setText("Verzögerung: " + App.loop.getActualUpdateDelay() + "ms/" + App.loop.getUpdateDelay() + "ms");
         zoomIndicator.setText("Zoom: " + Math.round((App.world.getCellSize() * 10)) + "%");
+    }
+
+    private static String getDataDir() {
+        String rootPath;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows")) {
+            rootPath = System.getenv("APPDATA");
+        } else {
+            rootPath = System.getenv("XDG_DATA_HOME");
+
+            if(rootPath == null) {
+                rootPath = System.getProperty("user.home")+"/.local/share";
+            }
+        }
+
+        return rootPath + "/golminator";
     }
 }

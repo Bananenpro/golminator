@@ -9,9 +9,10 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.util.Locale;
 
 public class Settings {
-    private final String FILE_PATH = "rsc/settings.json";
+    private final String FILE_PATH = getConfigDir() + "/settings.json";
     private final BooleanProperty darkTheme = new SimpleBooleanProperty(false);
     private final IntegerProperty maxUndoStages = new SimpleIntegerProperty(100);
     private final IntegerProperty windowWidth = new SimpleIntegerProperty(1200), windowHeight = new SimpleIntegerProperty(800);
@@ -99,5 +100,25 @@ public class Settings {
 
     public void setDarkTheme(boolean darkTheme) {
         this.darkTheme.set(darkTheme);
+    }
+
+    private String getConfigDir() {
+        String rootPath;
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows")) {
+            rootPath = System.getenv("APPDATA");
+        } else {
+            rootPath = System.getenv("XDG_CONFIG_HOME");
+
+            if(rootPath == null) {
+                rootPath = System.getProperty("user.home")+"/.config";
+            }
+        }
+
+        String path = rootPath + "/golminator";
+        //noinspection ResultOfMethodCallIgnored
+        new File(path).mkdirs();
+
+        return path;
     }
 }

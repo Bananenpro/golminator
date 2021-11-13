@@ -56,7 +56,7 @@ public class UI {
 
         jMetro.setScene(primaryScene);
 
-        primaryStage.getIcons().add(new Image(new File("rsc/icons/icon.png").toURI().toString()));
+        primaryStage.getIcons().add(new Image(new File(PrimaryController.iconsDir + "icon.png").toURI().toString()));
         primaryStage.setTitle("GOLminator");
         primaryStage.setScene(primaryScene);
         primaryStage.setOnCloseRequest(windowEvent -> {

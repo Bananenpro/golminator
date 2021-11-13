@@ -1,6 +1,8 @@
 package de.julianhofmann.world;
 
 import de.julianhofmann.App;
+import de.julianhofmann.ui.ContentPane;
+import de.julianhofmann.ui.UI;
 import javafx.beans.property.*;
 import javafx.scene.Cursor;
 
@@ -415,34 +417,46 @@ public class World {
 
     public void setCellSize(float newCellSize) {
         if (newCellSize >= 1) newCellSize = Math.round(newCellSize);
-        App.ui.getContentPane().getSelectionManager().beforeCellResize();
 
-        float x;
-        float y;
-        if (App.ui.getContentPane().isCursorInArea()) {
-            x = App.ui.getContentPane().getMouseX();
-            y = App.ui.getContentPane().getMouseY();
-        } else {
-            x = (float) (App.ui.getContentPane().getCanvas().getWidth() / 2);
-            y = (float) (App.ui.getContentPane().getCanvas().getHeight() / 2);
+        float x = 0;
+        float y = 0;
+        float centerX = 0;
+        float centerY = 0;
+
+        UI ui = App.ui;
+        ContentPane contentPane = null;
+        if (ui != null) {
+            contentPane = ui.getContentPane();
+            contentPane.getSelectionManager().beforeCellResize();
+            if (App.ui.getContentPane().isCursorInArea()) {
+                x = App.ui.getContentPane().getMouseX();
+                y = App.ui.getContentPane().getMouseY();
+            } else {
+                x = (float) (App.ui.getContentPane().getCanvas().getWidth() / 2);
+                y = (float) (App.ui.getContentPane().getCanvas().getHeight() / 2);
+            }
+
+            if (newCellSize < MIN_CELL_SIZE) newCellSize = MIN_CELL_SIZE;
+            if (newCellSize > MAX_CELL_SIZE) newCellSize = MAX_CELL_SIZE;
+            centerX = (x - getCameraX()) / getCellSize();
+            centerY = (y - getCameraY()) / getCellSize();
+            setCameraX(cameraX.divide(getCellSize()).floatValue());
+            setCameraY(cameraY.divide(getCellSize()).floatValue());
+            setCameraX(cameraX.multiply(newCellSize).floatValue());
+            setCameraY(cameraY.multiply(newCellSize).floatValue());
         }
 
-        if (newCellSize < MIN_CELL_SIZE) newCellSize = MIN_CELL_SIZE;
-        if (newCellSize > MAX_CELL_SIZE) newCellSize = MAX_CELL_SIZE;
-        float centerX = (x - getCameraX()) / getCellSize();
-        float centerY = (y - getCameraY()) / getCellSize();
-        setCameraX(cameraX.divide(getCellSize()).floatValue());
-        setCameraY(cameraY.divide(getCellSize()).floatValue());
-        setCameraX(cameraX.multiply(newCellSize).floatValue());
-        setCameraY(cameraY.multiply(newCellSize).floatValue());
         cellSize.set(newCellSize);
-        double centerXAfter = (x - getCameraX()) / (double) newCellSize;
-        double centerYAfter = (y - getCameraY()) / (double) newCellSize;
-        double centerXDiff = centerX - centerXAfter;
-        double centerYDiff = centerY - centerYAfter;
-        setCameraX(cameraX.subtract(centerXDiff * newCellSize).floatValue());
-        setCameraY(cameraY.subtract(centerYDiff * newCellSize).floatValue());
-        App.ui.getContentPane().getSelectionManager().afterCellResize();
+
+        if (ui != null) {
+            double centerXAfter = (x - getCameraX()) / (double) newCellSize;
+            double centerYAfter = (y - getCameraY()) / (double) newCellSize;
+            double centerXDiff = centerX - centerXAfter;
+            double centerYDiff = centerY - centerYAfter;
+            setCameraX(cameraX.subtract(centerXDiff * newCellSize).floatValue());
+            setCameraY(cameraY.subtract(centerYDiff * newCellSize).floatValue());
+            App.ui.getContentPane().getSelectionManager().afterCellResize();
+        }
     }
 
     public void addCellSize(float amount) {
