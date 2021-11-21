@@ -1,7 +1,7 @@
 # GOLminator
 
 An editor for [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life).
-[More details...](https://bananenpro05.duckdns.org/projects/golminator)
+[More details...](https://julianh.de/projects/golminator)
 
 ## License
 
