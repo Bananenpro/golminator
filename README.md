@@ -1,7 +1,35 @@
 # GOLminator
 
 An editor for [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life).
-[More details...](https://bananenpro05.duckdns.org/projects/golminator)
+
+![](rsc/readme-images/screenshot.png)
+
+## Features
+
+- infinite grid
+- mouse selection
+- move selection with mouse
+- copy, cut, paste
+- variable simulation speed
+- multithreading
+- load/save worlds
+- load/save structures
+- light and dark theme
+
+## Building
+
+Clone the repo and open the directory in [IntelliJ IDEA](https://www.jetbrains.com/idea/).
+```sh
+git clone https://github.com/Bananenpro/golminator.git
+```
+
+1. Open `Add Configuration...` -> `+` -> `Maven`
+2. Paste `javafx:run -f pom.xml` into the input box labeled `Run`
+3. Hit `Modify options` -> `Add before launch task` -> `Run Maven Goal`
+4. Paste `compiler:compile` into the `Command line` field and hit `OK`
+5. Hit `OK`
+6. Click on the green arrow button to run the project
+
 
 ## License
 
@@ -20,4 +48,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Copyright
 
-Copyright © 2021 Julian Hofmann
+Copyright © 2021-2022 Julian Hofmann
